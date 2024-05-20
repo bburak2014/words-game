@@ -2,12 +2,14 @@ import { motion } from "framer-motion";
 
 type Props = {
   timeLeft: number;
+  language: string;
 };
 
-const TimerDisplay = ({ timeLeft }: Props) => {
+const TimerDisplay = ({ timeLeft,language }: Props) => {
   return (
 
-    <div>Time Left: 
+    <div>
+      {language === 'en' ? ' Time Left: ' : ' Kalan Süre: '}
       <motion.span
         className="text-lg font-bold"
         initial={{ scale: 0.7, opacity: 0.7}}

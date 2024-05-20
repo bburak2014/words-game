@@ -10,10 +10,10 @@ import { isValidWord } from '../utils/isValid';
 import { motion } from 'framer-motion';
 import { FaPaperPlane } from 'react-icons/fa';
 import { LuSwords } from "react-icons/lu";
-
+import Link from 'next/link';
 type Props = {
     language: 'en' | 'tr';
-}; 
+};
 
 const Game = ({ language }: Props) => {
     const [letters, setLetters] = useState<string[]>([]);
@@ -42,7 +42,7 @@ const Game = ({ language }: Props) => {
         event.preventDefault();
         if (!word) return;
 
-        const isValid = isValidWord(word, language,letters);
+        const isValid = isValidWord(word, language, letters);
         if (isValid) {
             setScore(score + word.length);
             setTimeLeft(prevTime => prevTime + 15);
@@ -57,10 +57,10 @@ const Game = ({ language }: Props) => {
 
     const gameOverMessage = gameOver && (
         <div className="flex flex-col items-center gap-4 justify-center">
-            <p className="text-lg font-bold text-red-500 text-center">
-                Time's up! Your final score is {score}.
-            </p>
-        </div>
+            {
+                language === 'en' ? <p className="text-lg font-bold text-red-500 text-center">Time's up! Your final score is {score}</p> : <p className="text-lg font-bold text-red-500 text-center">Süre doldu! Sonuç: {score}</p>
+            }
+         </div>
     );
 
 
@@ -68,12 +68,15 @@ const Game = ({ language }: Props) => {
     return (
 
         <form onSubmit={handleSubmit} className='flex flex-col items-center gap-8 sm:gap-24 h-full justify-center '>
+            <Link className='absolute right-10 top-10 ' href={language === 'en' ? '/tr' : '/en'}><img src={language === 'en' ? 'turkish.png':'english.png' } width={30} /></Link>
+
             <motion.h1 initial={{ opacity: 0, y: -100 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1 }}
                 className='text-xl sm:text-[calc(5vw-0.5rem)]   font-bold text-slate-100 flex gap-2 items-center justify-center'>
-                <LuSwords /><span>Word Spelling Game</span>
+                <LuSwords /><span>{language === 'en' ? 'Word Spelling Game' : 'Kelime Tahmin Oyunu'}</span>
             </motion.h1 >
+
             <LetterDisplay letters={letters} />
             <motion.div initial={{ opacity: 0, x: -100 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -87,10 +90,11 @@ const Game = ({ language }: Props) => {
                     disabled={gameOver || word === null}
                 >
                     <FaPaperPlane className="mr-2" />
-                    Send
+                    {language === 'en' ? 'Send' : 'Gönder'}
+                    
                 </motion.button>
-                <TimerDisplay timeLeft={timeLeft} />
-                <ScoreDisplay score={score} />
+                <TimerDisplay timeLeft={timeLeft} language={language} />
+                <ScoreDisplay score={score} language={language}/>
             </motion.div>
             {gameOverMessage}
         </form>
