@@ -21,7 +21,6 @@ const Game = ({ language }: Props) => {
     const [score, setScore] = useState<number>(0);
     const [word, setWord] = useState<string | null>(null);
     const [gameOver, setGameOver] = useState<boolean>(false);
-
     useEffect(() => {
         const randomWord = getRandomLetters(language);
         setLetters(randomWord);
@@ -43,7 +42,7 @@ const Game = ({ language }: Props) => {
         event.preventDefault();
         if (!word) return;
 
-        const isValid = isValidWord(word, language);
+        const isValid = isValidWord(word, language,letters);
         if (isValid) {
             setScore(score + word.length);
             setTimeLeft(prevTime => prevTime + 15);
