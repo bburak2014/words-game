@@ -10,7 +10,7 @@ type Props = {
         type="text"
         value={word ?? ''}
         onChange={onChange}
-        className="p-2 text-lg border rounded"
+        className="p-2 text-lg border rounded bg-white"
         disabled={gameOver}
       />
     );
