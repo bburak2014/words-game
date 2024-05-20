@@ -13,7 +13,7 @@ import { LuSwords } from "react-icons/lu";
 
 type Props = {
     language: 'en' | 'tr';
-};
+}; 
 
 const Game = ({ language }: Props) => {
     const [letters, setLetters] = useState<string[]>([]);
